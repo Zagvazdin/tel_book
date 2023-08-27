@@ -4,3 +4,91 @@
 #для отлично в группах надо выполнить или ТГ бот или ГУИ (это когда кнопочки и поля ввода как в Виндовс приложениях) или БД
 #ГУИ можно сделать просто на EasyGUI или Tkinter
 
+import easygui
+from easygui import * 
+import json
+
+phone_book = []
+phone_book = {"Дядя Петя": {"phone_numbers": [9998881234, 9997772233], 
+            "birth_day": "121276", "email": "mail@mail.ss"}}
+def save():
+    with open("contact.json", "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(phone_book, ensure_ascii=False))
+     
+
+def load():
+    with open("contact.json", "r", encoding="utf-8") as fh:
+        phone_book= json.load(fh)
+    return  phone_book
+
+
+msg = "1 - Добавить новый контакт. 2 - Покозать все контакты, 3 - Сохранть 4 - Загрузка контактов 5 - поиск 6 - удалить"
+title = "Записная книжка" 
+button = "Начать работать" 
+
+msgbox(msg, title, button)
+
+
+while True:
+    global var1 #Переменная куда будем записывать данные.
+    msg = "Введите команду "
+    title = "Записная кника" #Шапочка.
+    fieldValues2 = enterbox(msg, title)
+    var1 = fieldValues2[0]
+    if var1 == "1":
+              msg = "Введите имя нового контакта: "
+              title = "Новый контакт" #Шапочка.
+              name = enterbox(msg, title)
+              msg = " Введите 1й номер :  "
+              title = "Новый контакт" #Шапочка.
+              number0 = enterbox(msg, title)
+              msg = " Введите 2й номер :  "
+              title = "Новый контакт" #Шапочка.
+              number1 = enterbox(msg, title)
+              msg = " Введите ДР:   "
+              title = "Новый контакт" #Шапочка.
+              nubith_day = enterbox(msg, title)
+              msg = " Введите email:    "
+              title = "Новый контакт" #Шапочка.
+              mail = enterbox(msg, title)
+              phone_book[name] = {"phone_numbers": [number0, number1], "nubith_day": nubith_day, "email": mail}
+    elif var1 == "2":
+             title = "Все контакты" #Шапочка.
+             msgbox(phone_book, title)
+    elif var1 == "3":
+        msg = " Сохранение " #Шапочка.
+        msgbox("Контакт добавлен")
+    elif var1 == "4":
+        phone_book = load()
+        title = "Контакты загружены" #Шапочка.
+        msgbox(title)
+     
+    elif var1 == "5":
+        msg = "Введите имя для поиска контакта: "
+        title = "Поиск" #Шапочка.
+        for msg in phone_book:
+            title = "Найдено" #Шапочка.
+            msg = enterbox(phone_book[msg], title)
+    elif var1 == "6":
+        msg = "Введите имя для удаления"
+        title = "Удаление"
+        enterbox(msg, title)
+        if msg in phone_book:
+            phone_book.remove(msg)
+            msgbox("Запись удалена", title)
+        else:
+             title = "Ошибка"
+             msgbox("Нет такой записи")
+    else:
+         title = "Ошибка"
+         msgbox("Нет такой команды", title)
+        
+        
+            
+            
+    
+
+
+    
+   
+    
